@@ -30,15 +30,15 @@ class CareerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Career $job)
     {
-        //
+        return view("job.show", compact('job'));
     }
 
     /**

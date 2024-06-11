@@ -1,4 +1,3 @@
-<article
-  {{ $attributes->class(['rounded-md border border-slate-300 bg-white p-4 shadow-sm']) }}>
-  {{ $slot }}
-</article>
+<div class="card rounded-md border bg-slate-400 p-5 {{ $attributes->get('class') }}">
+    {{ $slot }}
+</div>
