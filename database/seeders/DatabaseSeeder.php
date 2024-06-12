@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Career;
+use App\Models\Employer;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,12 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        Career::factory()->count(25)->create();
+        // Career::factory()->count(25)->create();
+        Employer::factory()->count(20)->create();
     }
 }
+
