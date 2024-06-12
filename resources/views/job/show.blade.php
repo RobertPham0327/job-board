@@ -5,14 +5,32 @@
         <p class="mb-4 text-sm text-slate-500">
             {!! nl2br(e($job->description)) !!}
         </p>
-        <table>
-            <tr>
-                <th>Được tạo vào</th>
-            </tr>
-            <tr>
-                <td>{{ \Carbon\Carbon::parse($job->created_at)->format('m/d/Y') }}</td>
-            </tr>
-        </table>
-
     </x-job-card>
+    <x-card class="mb-4">
+        <h2 class="mb-4 text-lg font-medium">
+          More {{ $job->employer->company_name }} Jobs
+        </h2>
+        <div>
+            <p> From <span class="underline text-green-400">{{ $job_user->employer->user->name}}</span></p>
+        </div>
+        <div class="text-sm text-slate-500">
+          @foreach ($job->employer->jobs as $otherJob)
+            <div class="mb-4 flex justify-between">
+              <div>
+                <div class="text-slate-700">
+                  <a href="{{ route('jobs.show', $otherJob) }}">
+                    {{ $otherJob->title }}
+                  </a>
+                </div>
+                <div class="text-xs">
+                  {{ $otherJob->created_at->diffForHumans() }}
+                </div>
+              </div>
+              <div class="text-xs">
+                ${{ number_format($otherJob->salary) }}
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </x-card>
 </x-layout>

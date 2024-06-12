@@ -49,7 +49,8 @@ class CareerController extends Controller
     public function show(Career $job)
     {
         return view('job.show', [
-            'job' => $job->load('employer'),
+            'job' => $job->load('employer.jobs'),
+            'job_user' => $job->load('employer.user'),
         ]);
     }
 
