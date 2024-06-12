@@ -12,8 +12,14 @@ class CareerController extends Controller
      */
     public function index()
     {
+        $jobs = Career::query();
+        $jobs->when(request('search'), function ($query) {
+            $query->where('title', 'like', '%' . request('search') .'%')
+                ->orWhere('description', 'like', '%' . request('search') .'%');
+        });
+
         return view("job.index", [
-            "jobs" => Career::all()
+            "jobs" => $jobs->get(),
         ]);
     }
 
