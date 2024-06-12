@@ -16,34 +16,16 @@
             </div>
             <div>
                 <div class="mb-1 font-semibold">Experience</div>
-
-                <label for="experience" class="mb-1 flex items-center">
-                  <input type="radio" name="experience" value=""
-                    @checked(!request('experience')) />
-                  <span class="ml-2">All</span>
-                </label>
-
-                <label for="experience" class="mb-1 flex items-center">
-                  <input type="radio" name="experience" value="entry"
-                    @checked('entry' === request('experience')) />
-                  <span class="ml-2">Entry</span>
-                </label>
-
-                <label for="experience" class="mb-1 flex items-center">
-                  <input type="radio" name="experience" value="intermediate"
-                    @checked('intermediate' === request('experience')) />
-                  <span class="ml-2">Intermediate</span>
-                </label>
-
-                <label for="experience" class="mb-1 flex items-center">
-                  <input type="radio" name="experience" value="senior"
-                    @checked('senior' === request('experience')) />
-                  <span class="ml-2">Senior</span>
-                </label>
-              </div>
-            <div>4</div>
+                    <x-radio-group name="experience"
+                    :options="\App\Models\Career::$experience" />
+                </div>
+                <div>
+                    <div class="mb-1 font-semibold">Category</div>
+                    <x-radio-group name="category"
+                    :options="\App\Models\Career::$category" />
+                </div>
             </div>
-            <button class="w-20 h-8 rounded-md bg-blue-400">Filter</button>
+            <button class="w-20 h-8 rounded-md bg-blue-400 hover:bg-slate-500 hover:text-white">Filter</button>
         </form>
       </div>
     </x-card>
