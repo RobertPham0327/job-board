@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Career;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CareerController extends Controller
@@ -23,7 +24,7 @@ class CareerController extends Controller
 
 
         return view('job.index', [
-            'jobs' => Career::filter($filters)->get(),
+            'jobs' => Career::with('employer')->filter($filters)->get(),
         ]);
     }
 
@@ -47,7 +48,9 @@ class CareerController extends Controller
      */
     public function show(Career $job)
     {
-        return view('job.show', compact('job'));
+        return view('job.show', [
+            'job' => $job->load('employer'),
+        ]);
     }
 
     /**

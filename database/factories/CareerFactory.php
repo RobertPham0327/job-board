@@ -24,6 +24,7 @@ class CareerFactory extends Factory
             'location' => fake()->city(),
             'category' => fake()->randomElement(Career::$category),
             'experience' => fake()->randomElement(Career::$experience),
+            'employer_id' => fake()->randomNumber(1, false),
         ];
     }
 }
