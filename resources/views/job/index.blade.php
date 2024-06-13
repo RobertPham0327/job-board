@@ -27,7 +27,7 @@
                     <x-radio-group name="category" :options="array_combine(
                         array_map('ucfirst', \App\Models\Career::$category),
                         \App\Models\Career::$category,
-                    )" />   
+                    )" />
                 </div>
             </div>
             <x-button class="w-20 h-8 rounded-md bg-blue-400 hover:bg-slate-500 hover:text-white">Filter</x-button>

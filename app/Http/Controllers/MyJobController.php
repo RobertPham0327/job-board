@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobRequest;
 use App\Models\Career;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,12 @@ class MyJobController extends Controller
      */
     public function index()
     {
-        return view('my-job.index');
+        $this->authorize('viewAnyEmployer', Career::class);
+        return view('my-job.index', [
+            'jobs' => auth()->user()->employer->jobs()
+            ->with(['employer', 'jobApplications', 'jobApplications.user'])
+            ->get(),
+        ]);
     }
 
     /**
@@ -20,24 +26,17 @@ class MyJobController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Career::class);
         return view('my-job.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(JobRequest $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'salary' => 'required|numeric|min:5000',
-            'description' => 'required|string',
-            'experience' => 'required|in:' . implode(',', Career::$experience),
-            'category' => 'required|in:' . implode(',', Career::$category)
-        ]);
-
-        auth()->user()->employer->jobs()->create($validatedData);
+        $this->authorize('create', Career::class);
+        auth()->user()->employer->jobs()->create($request->validated());
 
         return redirect()->route('my-jobs.index')->with('success', 'Job created successfully');
     }
@@ -53,17 +52,22 @@ class MyJobController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Career $myJob)
     {
-        //
+        $this->authorize('update', $myJob);
+        return view('my-job.edit', ['job' => $myJob]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(JobRequest $request, Career $myJob)
     {
-        //
+        $this->authorize('update', $myJob);
+        $myJob->update($request->validated());
+
+        return redirect()->route('my-jobs.index')
+        ->with('success', 'Job updated successfully.');
     }
 
     /**
