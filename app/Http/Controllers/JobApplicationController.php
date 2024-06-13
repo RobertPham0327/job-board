@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Career;
+use App\Policies\JobPolicy;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class JobApplicationController extends Controller
 {
-
     /**
      * Show the form for creating a new resource.
      */
     public function create(Career $job)
     {
+        $this->authorize('apply', $job);
         return view('job_application.create', ['job' => $job]);
     }
 
@@ -21,6 +23,7 @@ class JobApplicationController extends Controller
      */
     public function store(Career $job, Request $request)
     {
+        $this->authorize('apply', $job);
         $job->jobApplications()->create([
             'user_id' => $request->user()->id,
             ...$request->validate([
