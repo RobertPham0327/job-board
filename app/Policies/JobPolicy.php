@@ -50,6 +50,7 @@ class JobPolicy
 
     public function apply(User $user, Career $job): bool
     {
-        return false;
+        // return false;
+        return !$job->hasUserApplied($user);
     }
 }

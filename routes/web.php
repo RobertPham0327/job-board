@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\MyJobApplicationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,4 +19,5 @@ Route::delete('auth', [AuthController::class, 'destroy'])->name('auth.destroy');
 // Job Application
 Route::middleware('auth')->group(function() {
     Route::resource('job.application', JobApplicationController::class)->only(['create', 'store', 'destroy']);
+    Route::resource('my-job-applications', MyJobApplicationController::class)->only(['index', 'show', 'destroy']);
 });
