@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class EmployerController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->authorizeResource(Employer::class, 'employer');
-    }
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Employer::class, 'employer');
+    // }
     /**
      * Show the form for creating a new resource.
      */

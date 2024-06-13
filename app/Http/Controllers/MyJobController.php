@@ -3,29 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Career;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class CareerController extends Controller
+class MyJobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // $jobs = Career::query();
-        $filters = request()->only(
-            'search',
-            'min_salary',
-            'max_salary',
-            'experience',
-            'category'
-        );
-
-
-        return view('job.index', [
-            'jobs' => Career::with('employer')->latest()->filter($filters)->get(),
-        ]);
+        return view('my-job.index');
     }
 
     /**
@@ -33,7 +20,7 @@ class CareerController extends Controller
      */
     public function create()
     {
-        //
+        return view('my-job.create');
     }
 
     /**
@@ -41,17 +28,26 @@ class CareerController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'salary' => 'required|numeric|min:5000',
+            'description' => 'required|string',
+            'experience' => 'required|in:' . implode(',', Career::$experience),
+            'category' => 'required|in:' . implode(',', Career::$category)
+        ]);
+
+        auth()->user()->employer->jobs()->create($validatedData);
+
+        return redirect()->route('my-jobs.index')->with('success', 'Job created successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Career $job)
+    public function show(string $id)
     {
-        return view('job.show', [
-            'job' => $job->load('employer.jobs'),
-            'job_user' => $job->load('employer.user'),
-        ]);
+        //
     }
 
     /**
