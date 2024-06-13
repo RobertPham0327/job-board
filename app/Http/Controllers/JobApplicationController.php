@@ -14,7 +14,7 @@ class JobApplicationController extends Controller
      */
     public function create(Career $job)
     {
-        $this->authorize('apply', $job);
+        // $this->authorize('apply', $job);
         return view('job_application.create', ['job' => $job]);
     }
 
@@ -23,12 +23,20 @@ class JobApplicationController extends Controller
      */
     public function store(Career $job, Request $request)
     {
-        $this->authorize('apply', $job);
+        // $this->authorize('apply', $job);
+        $validatedData = $request->validate([
+            'expected_salary' => 'required|min:1|max:100000',
+            'cv' => 'required|file|mimes:png,jpg,jpeg,pdf|max:2048',
+
+        ]);
+
+        $file = $request->file('cv');
+        $path = $file->store('cvs', 'private');
+
         $job->jobApplications()->create([
             'user_id' => $request->user()->id,
-            ...$request->validate([
-                'expected_salary' => 'required|min:1|max:100000',
-            ])
+            'expected_salary' => $validatedData['expected_salary'],
+            'cv_path' => $path,
         ]);
 
         return redirect()->route('jobs.show', $job)->with('success', 'Job application submitted successfully');

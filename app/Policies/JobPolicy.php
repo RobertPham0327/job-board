@@ -29,7 +29,7 @@ class JobPolicy
      */
     public function create(User $user): bool
     {
-        return false;           // Not allow for user not logged in to create a job
+        return true;           // Not allow for user not logged in to create a job
     }
 
     /**
