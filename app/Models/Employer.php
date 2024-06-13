@@ -12,8 +12,6 @@ class Employer extends Model
     use HasFactory;
     protected $fillable = [
         'company_name',
-        'user_id'
-
     ];
 
     public function jobs(): HasMany
