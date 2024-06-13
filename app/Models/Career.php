@@ -10,10 +10,11 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use App\Models\Employer;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Career extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = ['title', 'description', 'salary', 'location', 'category', 'experience'];
     public static array $experience = ['entry', 'intermediate', 'senior'];
     public static array $category = ['IT', 'Finance', 'Sales', 'Marketing'];
